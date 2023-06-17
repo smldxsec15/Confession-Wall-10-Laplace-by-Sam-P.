@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open Forum by: Sam P.></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-color: #f2f2f2;
+            background-image: linear-gradient(rgba(260, 260, 260, 0.10), rgb(260, 260, 260, 0.10)), url('background.jpg');
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+        }
+        
+        #confession-form {
+            margin-bottom: 20px;
+        }
+        
+        #confessions {
+            list-style-type: none;
+            padding: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .confession {
+            margin-bottom: 10px;
+            display: none;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Open Forum 10- Laplace by: Sam P.</h1>
+    <form id="confession-form">
+        <input type="text" id="confession-input" placeholder="Enter your confession bitch">
+        <input type="submit" value="Submit">
+    </form>
+    <ul id="confessions"></ul>
+    
+    <script>
+        const form = document.getElementById('confession-form');
+        const input = document.getElementById('confession-input');
+        const confessionList = document.getElementById('confessions');
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const confession = input.value.trim();
+            
+            if (confession !== '') {
+                const listItem = document.createElement('li');
+                listItem.textContent = confession;
+                listItem.classList.add('confession', 'show');
+                confessionList.appendChild(listItem);
+                
+                // Clear input
+                input.value = '';
+                
+                // Save confessions to local storage
+                saveConfessions();
+            }
+        });
+        
+        // Load confessions from local storage
+        loadConfessions();
+        
+        function saveConfessions() {
+            const confessions = Array.from(confessionList.getElementsByClassName('confession')).map(confession => confession.textContent);
+            localStorage.setItem('confessions', JSON.stringify(confessions));
+        }
+        
+        function loadConfessions() {
+            const savedConfessions = localStorage.getItem('confessions');
+            
+            if (savedConfessions) {
+                const confessions = JSON.parse(savedConfessions);
+                
+                confessions.forEach(confession => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = confession;
+                    listItem.classList.add('confession', 'show');
+                    confessionList.appendChild(listItem);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
